@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Senses Ninh Van Bay — F&B Guest Journey Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep-green:#1E3B2C;
+  --deep-green-2:#16301F;
+  --teal:#2C5F62;
+  --sand:#F4EEDF;
+  --sand-dark:#E7DCC0;
+  --gold:#B08D4F;
+  --gold-light:#D4B679;
+  --ink:#26261F;
+  --ink-soft:#5B5A4F;
+  --white:#FFFCF6;
+  --ok:#3F7A54;
+  --bad:#B24A3C;
+  --radius-lg:22px;
+  --radius-sm:10px;
+  --shadow:0 10px 30px rgba(20,30,20,0.10);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Work Sans',sans-serif;
+  color:var(--ink);
+  background:var(--sand);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Fraunces',serif;margin:0;font-weight:500;}
+p{margin:0;}
+a{color:inherit;}
+button{font-family:inherit;cursor:pointer;}
+::selection{background:var(--gold-light);}
+
+/* ---------- Layout shell ---------- */
+.app{display:flex;min-height:100vh;}
+.sidebar{
+  width:272px;flex:none;background:var(--deep-green);color:var(--sand);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sidebar-brand{padding:30px 26px 18px;border-bottom:1px solid rgba(244,238,223,0.14);}
+.sidebar-brand{cursor:pointer;}
+.sidebar-brand .mark{
+  font-family:'Fraunces',serif;font-size:1.55rem;letter-spacing:0.01em;color:var(--white);
+}
+.sidebar-brand .sub{font-size:0.72rem;letter-spacing:0.09em;color:var(--gold-light);margin-top:6px;text-transform:uppercase;}
+.nav-list{list-style:none;margin:0;padding:14px 12px;flex:1;}
+.nav-item{margin-bottom:2px;}
+.nav-link{
+  display:flex;gap:12px;align-items:flex-start;width:100%;background:none;border:none;color:var(--sand);
+  padding:11px 14px;border-radius:12px;text-align:left;font-size:0.92rem;line-height:1.3;
+  transition:background .18s ease, color .18s ease;
+}
+.nav-link .n{font-family:'Fraunces',serif;color:var(--gold-light);font-size:0.85rem;flex:none;width:20px;}
+.nav-link:hover{background:rgba(244,238,223,0.08);}
+.nav-link.active{background:var(--sand);color:var(--deep-green-2);}
+.nav-link.active .n{color:var(--teal);}
+.nav-link .t{display:block;font-weight:500;}
+.nav-link .v{display:block;font-size:0.74rem;opacity:0.72;margin-top:2px;}
+.sidebar-foot{padding:16px 24px 22px;font-size:0.72rem;color:rgba(244,238,223,0.55);border-top:1px solid rgba(244,238,223,0.14);}
+
+.main{flex:1;min-width:0;}
+.home-fab{
+  position:fixed;top:18px;right:22px;z-index:600;display:none;align-items:center;gap:8px;
+  background:var(--white);color:var(--deep-green-2);border:1px solid var(--sand-dark);border-radius:100px;
+  padding:10px 18px 10px 14px;font-size:0.86rem;font-weight:500;box-shadow:var(--shadow);
+  transition:background .15s ease, transform .15s ease;
+}
+.home-fab svg{width:16px;height:16px;}
+.home-fab:hover{background:var(--sand);transform:translateY(-1px);}
+.home-fab.visible{display:inline-flex;}
+@media(max-width:900px){.home-fab{top:auto;bottom:18px;right:18px;}}
+.topbar{
+  display:none;
+}
+.view{display:none;padding:0 0 90px;}
+.view.active{display:block;}
+
+/* ---------- Home / Hero ---------- */
+.hero{
+  position:relative;padding:78px 64px 64px;background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(176,141,79,0.18), transparent 60%),
+    linear-gradient(160deg,var(--deep-green) 0%, var(--deep-green-2) 62%, #10241A 100%);
+  color:var(--sand);overflow:hidden;
+}
+.hero .eyebrow{color:var(--gold-light);font-size:0.85rem;letter-spacing:0.02em;}
+.hero h1{font-size:clamp(2.1rem,4vw,3.4rem);max-width:760px;color:var(--white);margin-top:14px;line-height:1.12;font-weight:500;}
+.hero p.lead{max-width:600px;margin-top:20px;font-size:1.05rem;line-height:1.6;color:rgba(244,238,223,0.86);}
+.hero-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;}
+.btn{
+  border-radius:100px;padding:13px 26px;font-size:0.92rem;font-weight:500;border:1px solid transparent;
+  display:inline-flex;align-items:center;gap:8px;transition:transform .15s ease, background .15s ease;
+}
+.btn-gold{background:var(--gold);color:var(--deep-green-2);}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-ghost{border-color:rgba(244,238,223,0.4);color:var(--sand);background:transparent;}
+.btn-ghost:hover{background:rgba(244,238,223,0.1);}
+.hero-orb{
+  position:absolute;right:-90px;top:-90px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(212,182,121,0.5),rgba(212,182,121,0) 70%);
+}
+
+.values-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--sand-dark);}
+.values-strip .val{background:var(--white);padding:26px 24px;}
+.values-strip .val .icon{width:30px;height:30px;color:var(--teal);margin-bottom:12px;}
+.values-strip .val h4{font-size:0.98rem;color:var(--deep-green-2);}
+.values-strip .val p{font-size:0.84rem;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
+
+.home-section{padding:56px 64px 10px;}
+.home-section h2{font-size:1.5rem;color:var(--deep-green-2);}
+.home-section .desc{color:var(--ink-soft);max-width:640px;margin-top:10px;line-height:1.6;font-size:0.96rem;}
+
+.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:30px;}
+.unit-card{
+  background:var(--white);border:1px solid var(--sand-dark);border-radius:var(--radius-lg);padding:24px;
+  cursor:pointer;transition:box-shadow .18s ease, transform .18s ease;position:relative;
+}
+.unit-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
+.unit-card .num{font-family:'Fraunces',serif;color:var(--gold);font-size:0.85rem;}
+.unit-card h3{font-size:1.12rem;margin-top:8px;color:var(--deep-green-2);line-height:1.3;}
+.unit-card .uv{font-size:0.78rem;color:var(--teal);margin-top:8px;letter-spacing:0.01em;}
+.unit-card .ug{font-size:0.86rem;color:var(--ink-soft);margin-top:10px;line-height:1.5;}
+
+/* ---------- Unit page ---------- */
+.unit-head{
+  padding:52px 64px 34px;background:linear-gradient(180deg,var(--deep-green) 0%, var(--deep-green-2) 100%);color:var(--sand);
+}
+.unit-head .crumb{font-size:0.8rem;color:var(--gold-light);}
+.unit-head h2{color:var(--white);font-size:clamp(1.7rem,3vw,2.3rem);margin-top:10px;max-width:700px;line-height:1.18;}
+.unit-head .valuepill{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:rgba(244,238,223,0.1);
+  border:1px solid rgba(244,238,223,0.25);padding:7px 16px;border-radius:100px;font-size:0.8rem;color:var(--sand);
+}
+.unit-head .goal{margin-top:18px;max-width:640px;color:rgba(244,238,223,0.85);line-height:1.6;font-size:0.98rem;}
+
+.section{padding:46px 64px;border-top:1px solid var(--sand-dark);}
+.section:first-of-type{border-top:none;}
+.section .shead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.section h3{font-size:1.35rem;color:var(--deep-green-2);}
+.section .shint{font-size:0.86rem;color:var(--ink-soft);max-width:420px;text-align:right;}
+
+/* phrases */
+.scene-banner{margin-top:22px;border-radius:var(--radius-lg);overflow:hidden;line-height:0;box-shadow:var(--shadow);}
+.scene-banner svg{width:100%;height:auto;display:block;}
+.duo-scene{margin-top:22px;margin-bottom:4px;border-radius:var(--radius-lg);overflow:hidden;line-height:0;}
+.duo-scene svg{width:100%;height:auto;display:block;}
+.phrase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:26px;}
+.phrase-card{
+  background:var(--white);border:1px solid var(--sand-dark);border-radius:var(--radius-lg);padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.phrase-top{display:flex;gap:14px;align-items:flex-start;}
+.phrase-icon{
+  flex:none;width:44px;height:44px;border-radius:12px;background:var(--sand);display:flex;align-items:center;justify-content:center;color:var(--teal);
+}
+.phrase-icon svg{width:22px;height:22px;}
+.phrase-en{font-size:1rem;line-height:1.4;color:var(--ink);font-weight:500;}
+.phrase-tip{font-size:0.78rem;color:var(--gold);margin-top:2px;}
+.phrase-vi{font-size:0.86rem;color:var(--ink-soft);border-top:1px dashed var(--sand-dark);padding-top:10px;}
+.playbtn{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:var(--deep-green);color:var(--white);
+  border-radius:100px;padding:8px 14px;font-size:0.78rem;border:none;
+}
+.playbtn:hover{background:var(--teal);}
+.playbtn svg{width:13px;height:13px;}
+.playbtn.playing{background:var(--gold);color:var(--deep-green-2);}
+.phrase-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.playbtn.secondary{background:var(--sand);color:var(--deep-green-2);}
+.playbtn.secondary:hover{background:var(--sand-dark);}
+.playbtn.secondary.playing{background:var(--gold);color:var(--deep-green-2);}
+
+/* conversation */
+.convo-wrap{margin-top:26px;background:var(--white);border:1px solid var(--sand-dark);border-radius:var(--radius-lg);padding:8px;}
+.convo-toolbar{display:flex;justify-content:flex-end;gap:8px;padding:12px 14px 4px;flex-wrap:wrap;}
+.convo-line{display:flex;gap:14px;padding:14px 18px;align-items:flex-start;}
+.convo-line + .convo-line{border-top:1px solid var(--sand);}
+.convo-tag{
+  flex:none;width:76px;font-size:0.72rem;letter-spacing:0.03em;padding:5px 0;text-align:center;border-radius:100px;font-weight:600;
+}
+.tag-H{background:rgba(44,95,98,0.13);color:var(--teal);}
+.tag-G{background:rgba(176,141,79,0.16);color:#8a6c37;}
+.convo-text{flex:1;font-size:0.98rem;line-height:1.5;padding-top:2px;}
+.convo-actions{flex:none;display:flex;gap:6px;}
+.convo-play{background:none;border:1px solid var(--sand-dark);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--deep-green);}
+.convo-play:hover{background:var(--sand);}
+.convo-play svg{width:13px;height:13px;}
+.convo-play.playing{background:var(--gold);color:var(--deep-green-2);border-color:var(--gold);}
+
+/* matching */
+.match-wrap{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:820px){.match-wrap{grid-template-columns:1fr;}}
+.match-col-label{font-size:0.76rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-soft);margin-bottom:10px;}
+.match-item{
+  width:100%;text-align:left;background:var(--white);border:1.5px solid var(--sand-dark);border-radius:var(--radius-sm);
+  padding:13px 16px;margin-bottom:9px;font-size:0.9rem;line-height:1.4;transition:all .15s ease;
+}
+.match-item:hover{border-color:var(--teal);}
+.match-item.selected{border-color:var(--gold);background:#FFF8EA;}
+.match-item.matched{border-color:var(--ok);background:rgba(63,122,84,0.08);color:var(--ink-soft);}
+.match-item.wrong{border-color:var(--bad);background:rgba(178,74,60,0.08);animation:shake .32s;}
+@keyframes shake{25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.match-status{margin-top:14px;font-size:0.86rem;color:var(--ink-soft);}
+.reset-link{background:none;border:none;color:var(--teal);font-size:0.84rem;text-decoration:underline;padding:0;margin-top:6px;}
+
+/* reorder-the-sentence exercise */
+.ro-answer{
+  min-height:48px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 14px;
+  border:1.5px dashed var(--sand-dark);border-radius:var(--radius-sm);background:var(--sand);margin-top:14px;
+}
+.ro-answer.ro-correct{border-color:var(--ok);border-style:solid;background:rgba(63,122,84,0.08);}
+.ro-answer.ro-incorrect{border-color:var(--bad);border-style:solid;background:rgba(178,74,60,0.08);}
+.ro-placeholder{color:var(--ink-soft);font-size:0.86rem;}
+.ro-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.word-tile{background:var(--white);border:1.5px solid var(--sand-dark);border-radius:100px;padding:8px 15px;font-size:0.9rem;color:var(--ink);}
+.word-tile:hover{border-color:var(--teal);}
+.word-tile.picked{background:var(--deep-green);color:var(--white);border-color:var(--deep-green);}
+.word-tile:disabled{opacity:0.7;}
+.ro-actions{display:flex;align-items:center;gap:16px;margin-top:14px;}
+.ro-actions .footbtn{padding:9px 18px;font-size:0.84rem;}
+
+/* quiz cards (roleplay + listening) */
+.quiz-grid{margin-top:26px;display:flex;flex-direction:column;gap:16px;}
+.quiz-card{background:var(--white);border:1px solid var(--sand-dark);border-radius:var(--radius-lg);padding:22px;}
+.quiz-card .qnum{font-size:0.74rem;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.quiz-card .qtext{margin-top:8px;font-size:1rem;line-height:1.5;color:var(--ink);}
+.quiz-card .qtext .scenario{color:var(--ink-soft);font-size:0.86rem;display:block;margin-bottom:4px;}
+.listen-audio-btn{
+  margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:var(--sand);border:1px solid var(--sand-dark);
+  padding:9px 16px;border-radius:100px;font-size:0.84rem;color:var(--deep-green-2);
+}
+.listen-audio-btn:hover{border-color:var(--teal);}
+.listen-audio-btn svg{width:14px;height:14px;}
+.listen-audio-btn.playing{background:var(--gold);color:var(--deep-green-2);border-color:var(--gold);}
+.listen-audio-btn.secondary{background:var(--white);}
+.listen-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.opt-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.opt{
+  text-align:left;background:var(--white);border:1.5px solid var(--sand-dark);border-radius:var(--radius-sm);
+  padding:11px 15px;font-size:0.9rem;line-height:1.4;display:flex;gap:10px;align-items:flex-start;
+}
+.opt:hover{border-color:var(--teal);}
+.opt .bullet{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--sand-dark);margin-top:1px;}
+.opt.correct{border-color:var(--ok);background:rgba(63,122,84,0.08);}
+.opt.correct .bullet{background:var(--ok);border-color:var(--ok);}
+.opt.incorrect{border-color:var(--bad);background:rgba(178,74,60,0.08);}
+.opt.incorrect .bullet{background:var(--bad);border-color:var(--bad);}
+.opt[disabled]{cursor:default;}
+.feedback{margin-top:12px;font-size:0.86rem;line-height:1.5;padding:12px 14px;border-radius:var(--radius-sm);display:none;}
+.feedback.show{display:block;}
+.feedback.good{background:rgba(63,122,84,0.1);color:#2b5a3c;}
+.feedback.bad{background:rgba(178,74,60,0.1);color:#8f3c30;}
+
+.score-bar{
+  margin-top:22px;background:var(--white);border:1px solid var(--sand-dark);border-radius:100px;padding:14px 22px;
+  display:flex;align-items:center;justify-content:space-between;font-size:0.88rem;color:var(--ink-soft);
+}
+.score-bar b{color:var(--deep-green-2);font-family:'Fraunces',serif;font-size:1.05rem;}
+
+.unit-nav-foot{padding:10px 64px 60px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.footbtn{background:var(--white);border:1px solid var(--sand-dark);border-radius:100px;padding:12px 22px;font-size:0.88rem;display:flex;align-items:center;gap:8px;}
+.footbtn:hover{border-color:var(--teal);}
+
+@media(max-width:900px){
+  .app{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:relative;flex-direction:row;overflow-x:auto;}
+  .sidebar-brand{border-bottom:none;padding:16px 18px;flex:none;}
+  .nav-list{display:flex;padding:10px;flex:1;}
+  .nav-item{flex:none;margin-right:4px;margin-bottom:0;}
+  .sidebar-foot{display:none;}
+  .hero,.home-section,.unit-head,.section,.unit-nav-foot{padding-left:22px;padding-right:22px;}
+  .values-strip{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <button class="home-fab" id="homeFab" onclick="goToUnit(0)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/></svg>
+    <span>Trang chủ</span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand" onclick="goToUnit(0)">
+      <div class="mark">SIX SENSES</div>
+      <div class="sub">Ninh Van Bay · F&amp;B Academy</div>
+    </div>
+    <ul class="nav-list" id="navList"></ul>
+    <div class="sidebar-foot">A wellness-hospitality training space for F&amp;B Hosts — built around Barefoot Luxury, Eat&nbsp;Well and lasting positive impact.</div>
+  </aside>
+
+  <main class="main">
+    <div class="view active" id="view-home">
+
+      <section class="hero">
+        <div class="hero-orb"></div>
+        <div class="eyebrow">F&amp;B Guest Journey Academy</div>
+        <h1>Speak the language of Barefoot Luxury.</h1>
+        <p class="lead">Eleven training units built around real F&amp;B moments at Six Senses Ninh Van Bay — from the first welcome drink to directions, complaint recovery and the closing bill. Learn the phrases, hear them spoken, and practise the judgment calls that make our hospitality feel personal.</p>
+        <div class="hero-cta">
+          <button class="btn btn-gold" onclick="goToUnit(1)">Begin with Unit 1</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('unitGridAnchor').scrollIntoView({behavior:'smooth'})">View all 11 units</button>
+          <button class="btn btn-ghost" id="audioTestBtn" onclick="testAudio(this)">🔊 Test audio</button>
+        </div>
+      </section>
+
+      <div class="values-strip">
+        <div class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 15c2-6 6-9 8-9s6 3 8 9c-3 2-5 3-8 3s-5-1-8-3z"/><path d="M12 6v9"/></svg><h4>Barefoot Luxury</h4><p>Warm, unscripted hospitality — comfort over formality, always.</p></div>
+        <div class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/></svg><h4>Eat Well</h4><p>Local, organic, nourishing — food that guests can trust and feel good about.</p></div>
+        <div class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><h4>Slow Down Time</h4><p>Unhurried moments — sunsets, quiet meals, no rushing the guest.</p></div>
+        <div class="val"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.6-9.5 9-9.5 9z"/></svg><h4>For People, For the Planet</h4><p>Hospitality that leaves a lasting, positive impact on guests and place.</p></div>
+      </div>
+
+      <div class="home-section" id="unitGridAnchor">
+        <h2>Eleven units of the guest journey</h2>
+        <p class="desc">Each unit follows one real touchpoint in the F&amp;B guest journey. Work through them in order, or jump to the moment you're preparing for.</p>
+        <div class="unit-grid" id="unitGrid"></div>
+      </div>
+
+    </div>
+
+    <div id="unitViews"></div>
+  </main>
+</div>
+
+<script>
+/* ============================= ICONS ============================= */
+const ICONS = {
+  wave: '<path d="M4 13c2-3 3-5 3-7a3 3 0 0 1 6 0v6M13 6a2 2 0 0 1 4 0v6M17 8a2 2 0 0 1 4 0v5c0 4-3 7-7 7h-1c-3 0-5-1-7-4l-2-3c-1-1 0-3 2-2l2 2"/>',
+  drink: '<path d="M7 3h10l-1.4 12.6A2 2 0 0 1 13.6 17h-3.2a2 2 0 0 1-2-1.4L7 3z"/><path d="M9 21h6M12 17v4"/>',
+  leaf: '<path d="M4 15c2-6 6-9 8-9s6 3 8 9c-3 2-5 3-8 3s-5-1-8-3z"/><path d="M12 6v9"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M14.5 9.5 13 13l-3.5 1.5L11 11l3.5-1.5z"/>',
+  host: '<path d="M4 19a8 8 0 0 1 16 0"/><circle cx="12" cy="8" r="4"/>',
+  phone: '<path d="M6 3h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 6.2 2 2 0 0 1 6 3z"/>',
+  note: '<path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/>',
+  table: '<path d="M3 8h18M12 8v13M6 8l-1 5M18 8l1 5"/>',
+  heart: '<path d="M12 20s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 5a5.5 5.5 0 0 1 9.5 6c-2.5 4.6-9.5 9-9.5 9z"/>',
+  candle: '<path d="M12 2c1.2 1.6 1.2 2.6 0 4-1.2-1.4-1.2-2.4 0-4z"/><rect x="9" y="7" width="6" height="13" rx="1"/><path d="M9 12h6"/>',
+  gift: '<rect x="3" y="9" width="18" height="11" rx="1"/><path d="M3 13h18M12 9v11M7.5 9a2.5 2.5 0 1 1 0-5C10 4 12 9 12 9S14 4 16.5 4a2.5 2.5 0 1 1 0 5"/>'
+};
+function iconSvg(key){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[key]||ICONS.leaf)+'</svg>'; }
+const SVG_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>';
+const SVG_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+const SVG_SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+
+/* ============================= HAND-DRAWN SVG SCENE ILLUSTRATIONS ============================= */
+/* Original, brand-colored illustrations (no photography, no third-party artwork) used to bring
+   the Useful Phrases and Conversation sections to life without any copyright concerns. */
+const MOODS = {
+  day:    { skyTop:'#F4EEDF', skyBottom:'#E7DCC0', sea:'#2C5F62', sun:'#D4B679', sunR:26, palm:'#1E3B2C' },
+  dawn:   { skyTop:'#F7E3C4', skyBottom:'#F0BE93', sea:'#3F6659', sun:'#E8B36B', sunR:30, palm:'#20402C' },
+  sunset: { skyTop:'#F3C77A', skyBottom:'#B4603F', sea:'#1F3B33', sun:'#F6D488', sunR:42, palm:'#16261C' },
+  evening:{ skyTop:'#1E3B2C', skyBottom:'#0F2016', sea:'#0F2A22', sun:'#D4B679', sunR:16, palm:'#0A150E' }
+};
+let sceneUid = 0;
+function bannerSvg(mood, iconKey){
+  const m = MOODS[mood] || MOODS.day;
+  const id = 'sky'+(sceneUid++);
+  const iconPath = ICONS[iconKey] || ICONS.leaf;
+  return `<svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${m.skyTop}"/><stop offset="1" stop-color="${m.skyBottom}"/>
+    </linearGradient></defs>
+    <rect x="0" y="0" width="800" height="160" fill="url(#${id})"/>
+    <circle cx="650" cy="66" r="${m.sunR}" fill="${m.sun}" opacity="0.92"/>
+    <rect x="0" y="150" width="800" height="70" fill="${m.sea}"/>
+    <path d="M0,150 Q200,138 400,150 T800,150 L800,158 L0,158 Z" fill="${m.skyBottom}" opacity="0.45"/>
+    <g fill="${m.palm}">
+      <rect x="58" y="88" width="10" height="74" rx="4"/>
+      <path d="M63,93 Q18,68 12,38 Q54,53 66,90 Z"/>
+      <path d="M63,93 Q108,63 118,33 Q73,53 64,90 Z"/>
+      <path d="M63,88 Q28,53 38,18 Q68,43 66,86 Z"/>
+      <path d="M63,88 Q98,48 93,13 Q63,43 62,86 Z"/>
+    </g>
+    <circle cx="686" cy="150" r="46" fill="#FFFCF6" stroke="#E7DCC0" stroke-width="2"/>
+    <g transform="translate(663,127) scale(1.9)" fill="none" stroke="#1E3B2C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${iconPath}</g>
+  </svg>`;
+}
+function duoSvg(mood, iconKey){
+  const m = MOODS[mood] || MOODS.day;
+  const id = 'duo'+(sceneUid++);
+  const iconPath = ICONS[iconKey] || ICONS.leaf;
+  return `<svg viewBox="0 0 800 190" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${m.skyTop}"/><stop offset="1" stop-color="${m.skyBottom}"/>
+    </linearGradient></defs>
+    <rect x="0" y="0" width="800" height="190" rx="22" fill="url(#${id})"/>
+    <circle cx="400" cy="175" r="200" fill="${m.sun}" opacity="0.16"/>
+    <rect x="0" y="168" width="800" height="22" fill="${m.sea}" opacity="0.32"/>
+    <path d="M228,168 Q228,112 278,112 Q328,112 328,168 Z" fill="#1E3B2C"/>
+    <circle cx="278" cy="88" r="25" fill="#FFFCF6"/>
+    <rect x="258" y="110" width="40" height="9" rx="4" fill="#B08D4F"/>
+    <path d="M472,168 Q472,112 522,112 Q572,112 572,168 Z" fill="#B08D4F"/>
+    <circle cx="522" cy="88" r="25" fill="#FFFCF6"/>
+    <path d="M495,74 Q522,54 549,74 Q522,63 495,74 Z" fill="#1E3B2C"/>
+    <rect x="348" y="26" width="104" height="58" rx="16" fill="#FFFCF6" stroke="#E7DCC0" stroke-width="2"/>
+    <path d="M388,84 l10,15 l14,-15 Z" fill="#FFFCF6" stroke="#E7DCC0" stroke-width="2"/>
+    <g transform="translate(375,40) scale(1.7)" fill="none" stroke="#2C5F62" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${iconPath}</g>
+  </svg>`;
+}
+
+/* ============================= AUDIO (Web Speech) ============================= */
+let VOICES = [];
+function loadVoices(){ VOICES = window.speechSynthesis ? window.speechSynthesis.getVoices() : []; }
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+function pickVoice(pref){
+  if(!VOICES.length) return null;
+  const en = VOICES.filter(v=>v.lang && v.lang.toLowerCase().startsWith('en'));
+  const pool = en.length?en:VOICES;
+  if(pref==='male'){
+    return pool.find(v=>/male|david|daniel|fred|george|guy/i.test(v.name) && !/female/i.test(v.name)) || pool[0];
+  }
+  return pool.find(v=>/female|samantha|victoria|zira|susan|karen|moira|tessa/i.test(v.name)) || pool[pool.length-1] || pool[0];
+}
+function makeUtterance(text, opts){
+  const u = new SpeechSynthesisUtterance(text);
+  const v = pickVoice(opts && opts.voice);
+  if(v) u.voice = v;
+  u.rate = (opts && opts.rate) || 0.94;
+  u.pitch = (opts && opts.pitch) || 1;
+  return u;
+}
+let pausedBtn = null;
+function speak(text, opts, btn){
+  if(!('speechSynthesis' in window)){
+    showAudioWarning();
+    return;
+  }
+  if(btn && pausedBtn === btn && window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    btn.classList.add('playing');
+    pausedBtn = null;
+    return;
+  }
+  pausedBtn = null;
+  const doSpeak = ()=>{
+    const u = makeUtterance(text, opts);
+    let started = false;
+    if(btn){
+      btn.classList.add('playing');
+      u.onstart = ()=>{ started = true; };
+      u.onend = ()=>{ btn.classList.remove('playing'); if(pausedBtn===btn) pausedBtn=null; };
+      u.onerror = ()=>{ btn.classList.remove('playing'); if(!started) showAudioWarning(); };
+    }
+    window.speechSynthesis.speak(u);
+    // Safety check: if nothing actually starts speaking within 1.2s, the environment
+    // likely does not truly support TTS (common in Zalo / Messenger in-app browsers).
+    setTimeout(()=>{
+      if(!started && !window.speechSynthesis.speaking){
+        if(btn) btn.classList.remove('playing');
+        showAudioWarning();
+      }
+    }, 1200);
+  };
+  window.speechSynthesis.cancel();
+  setTimeout(doSpeak, 60); // small delay avoids a Chrome bug where speak() right after cancel() is dropped
+}
+
+/* Pauses whatever is currently playing, if it belongs to the given Play button. */
+function pauseAudio(playBtn){
+  if(!('speechSynthesis' in window)) return;
+  if(window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    window.speechSynthesis.pause();
+    pausedBtn = playBtn;
+  }
+}
+
+/* Plays a list of [text, opts] pairs back-to-back, using the exact same engine as speak(). Used for "Play full conversation". Supports pause/resume via the same pausedBtn tracking. */
+function speakSequence(items, btn){
+  if(!('speechSynthesis' in window)){
+    showAudioWarning();
+    return;
+  }
+  if(btn && pausedBtn === btn && window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    btn.classList.add('playing');
+    pausedBtn = null;
+    return;
+  }
+  pausedBtn = null;
+  window.speechSynthesis.cancel();
+  if(btn) btn.classList.add('playing');
+  let i = 0, anyStarted = false;
+  function playNext(){
+    if(i >= items.length){ if(btn) btn.classList.remove('playing'); return; }
+    const [text, opts] = items[i];
+    const u = makeUtterance(text, opts);
+    let started = false;
+    u.onstart = ()=>{ started = true; anyStarted = true; };
+    u.onend = ()=>{ i++; playNext(); };
+    u.onerror = ()=>{ i++; playNext(); };
+    window.speechSynthesis.speak(u);
+    setTimeout(()=>{
+      if(!started && !window.speechSynthesis.speaking && i < items.length){
+        if(btn) btn.classList.remove('playing');
+        if(!anyStarted) showAudioWarning();
+      }
+    }, 1500);
+  }
+  setTimeout(playNext, 60);
+}
+
+let audioWarningShown = false;
+function showAudioWarning(){
+  if(audioWarningShown) return;
+  audioWarningShown = true;
+  const bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#3a1f1a;color:#f4ede0;padding:14px 20px;font-size:0.86rem;font-family:"Work Sans",sans-serif;box-shadow:0 -6px 20px rgba(0,0,0,0.25);display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;';
+  bar.innerHTML = "<span>Audio playback isn't working in this browser. This usually happens inside an in-app browser (Zalo, Messenger, Facebook, TikTok). Please open this file in Chrome, Safari, or Edge instead.</span><button style=\"background:#B08D4F;color:#1E3B2C;border:none;border-radius:100px;padding:8px 16px;font-size:0.82rem;flex:none;\" onclick=\"this.parentElement.remove()\">Got it</button>";
+  document.body.appendChild(bar);
+}
+
+function testAudio(btn){
+  audioWarningShown = false;
+  speak("This is a test of the audio system. If you can hear this, playback is working.", {voice:'female', rate:0.95}, btn);
+}
+
+/* Lookup table for spoken text, keyed by a plain alphanumeric id (e.g. "ph-1-0").
+   Buttons call speakById(key, this) instead of embedding raw text with quotes/apostrophes
+   inside an onclick="..." attribute, which previously broke the HTML for any phrase
+   containing a quote mark or apostrophe (isn't, you're, chef's, etc.). */
+const AUDIO_MAP = {};
+function speakById(key, btn){
+  const item = AUDIO_MAP[key];
+  if(!item) return;
+  speak(item.text, item.opts, btn);
+}
+
+/* ============================= UNIT DATA ============================= */
+/* phrase: [english, vietnamese, pronunciation tip, icon key] */
+/* conversation line: [speaker 'H'|'G', english] */
+/* roleplay: [guest line, [opt A, opt B, opt C], correctIndex, explanation] */
+/* listening: [audio text, question, [opt A, opt B, opt C], correctIndex] */
+
+const UNITS = [
+{
+  title:"Warm Arrival & Welcome Drink",
+  mood:"day", sceneIcon:"wave",
+  value:"Barefoot Luxury & Warm Hospitality",
+  goal:"Greet arriving guests with genuine warmth, offer the welcome drink, and set the tone of relaxed, barefoot-luxury hospitality from the very first moment.",
+  phrases:[
+    ["Welcome to Six Senses Ninh Van Bay.","Chào mừng quý khách đến với Six Senses Ninh Vân Bay.","wel-CUM (warm, smiling tone)","wave"],
+    ["May I offer you a refreshing welcome drink?","Tôi có thể mời quý khách một ly nước chào mừng mát lạnh không?","re-FRESH-ing","drink"],
+    ["This is our signature lemongrass cooler.","Đây là thức uống đặc trưng sả tươi mát của chúng tôi.","SIG-na-cher","drink"],
+    ["Please, make yourself comfortable.","Xin quý khách cứ tự nhiên.","COM-for-ta-bl","leaf"],
+    ["Is this your first time visiting us?","Đây có phải lần đầu quý khách đến đây không?","VIS-it-ing","compass"],
+    ["Enjoy the moment — you're on island time now.","Hãy tận hưởng khoảnh khắc này — quý khách đang ở giờ đảo rồi đấy.","en-JOY the MO-ment","sun"]
+  ],
+  conversation:[
+    ["H","Good afternoon, and welcome to Six Senses Ninh Van Bay."],
+    ["G","Thank you, it's beautiful here."],
+    ["H","May I offer you a refreshing welcome drink while your villa is prepared?"],
+    ["G","That would be lovely, thank you."],
+    ["H","This is our signature lemongrass cooler, made with herbs from our organic garden."],
+    ["G","It's delicious, and so fragrant."],
+    ["H","I'm glad you like it. Please, make yourself comfortable — you're on island time now."],
+    ["G","I could get used to this already."]
+  ],
+  rp:[
+    ["Guest: \"This heat is exhausting after the boat ride.\"", ["You'll get used to it eventually.","I completely understand — let me bring you a cool welcome drink right away.","It's tropical weather, nothing we can do."], 1, "Acknowledge how the guest feels, then act immediately with a warm, practical gesture."],
+    ["Guest: \"Do I need to pay for this welcome drink?\"", ["Yes, it will be added to your bill.","No, it's our pleasure to welcome you — it's complimentary.","I'm not sure, let me check with my manager."], 1, "Answer warmly and with confidence — hesitation undercuts genuine hospitality."],
+    ["Guest: \"I'm not really thirsty right now.\"", ["No problem at all — shall I have it ready for you at the villa instead?","You should drink it now, it might spoil.","Okay."], 0, "Flexibility and personalization matter more than following a fixed script."],
+    ["Guest: \"What's in this welcome drink, exactly?\"", ["Just a mix of some fruits.","It's our signature lemongrass cooler, made with herbs from our organic garden.","I don't know, the bartender made it."], 1, "Share the story behind the drink — it reinforces the sustainability and craft guests expect."],
+    ["Guest: \"Can you recommend something without alcohol?\"", ["We only serve alcoholic welcome drinks.","Of course — I'd recommend our fresh coconut water or a mocktail version.","You could just have water."], 1, "Always offer a thoughtful, specific alternative rather than a flat no."],
+    ["Guest: \"I've never stayed anywhere like this before.\"", ["That's nice.","Welcome — I hope this stay gives you moments you'll treasure long after you leave.","You'll get used to the luxury quickly."], 1, "Speak from the heart — this is the emotional register of Six Senses hospitality."]
+  ],
+  listen:[
+    ["May I offer you a refreshing welcome drink while your villa is prepared?","What is the host offering?", ["A welcome drink","A villa tour","A spa treatment"], 0],
+    ["This is our signature lemongrass cooler, made with herbs from our organic garden.","Where do the herbs come from?", ["The organic garden","A supermarket","Another resort"], 0],
+    ["Please, make yourself comfortable — you're on island time now.","What feeling is the host inviting the guest into?", ["Relaxed and unhurried","Anxious","Rushed"], 0],
+    ["Is this your first time visiting us?","What is the host asking about?", ["Whether it's the guest's first visit","The guest's flight","The guest's job"], 0],
+    ["Good afternoon, and welcome to Six Senses Ninh Van Bay.","What time of day is it?", ["Afternoon","Morning","Midnight"], 0],
+    ["I'm glad you like it.","How does the host feel?", ["Pleased","Confused","Worried"], 0]
+  ]
+},
+{
+  title:"Villa Host & In-Villa Dining",
+  mood:"day", sceneIcon:"host",
+  value:"Personalized, Anticipatory Service",
+  goal:"Introduce yourself as the guest's villa host and explain how in-villa dining works, reflecting Six Senses' personalized, anticipatory style of care.",
+  phrases:[
+    ["I'll be your villa host during your stay.","Tôi sẽ là quản gia villa của quý khách trong suốt kỳ nghỉ.","VIL-la host","host"],
+    ["You can order in-villa dining anytime, 24 hours a day.","Quý khách có thể gọi món tại villa bất cứ lúc nào, 24 giờ mỗi ngày.","AN-y-time","phone"],
+    ["Simply dial 'Host' from your villa phone.","Chỉ cần bấm số 'Host' từ điện thoại trong villa.","dial HOST","phone"],
+    ["Would you like me to walk you through the menu?","Quý khách có muốn tôi giới thiệu qua thực đơn không?","walk you THROUGH","note"],
+    ["We can also prepare dishes not listed, just let us know.","Chúng tôi cũng có thể chuẩn bị món không có trong thực đơn, chỉ cần cho chúng tôi biết.","not LIS-ted","note"],
+    ["Is there anything you're allergic to or prefer to avoid?","Quý khách có dị ứng hay muốn tránh món gì không?","a-LER-jic to","heart"]
+  ],
+  conversation:[
+    ["H","Hello, I'm Linh, and I'll be your villa host during your stay."],
+    ["G","Nice to meet you, Linh."],
+    ["H","You can order in-villa dining anytime, 24 hours a day — simply dial \"Host\" from your villa phone."],
+    ["G","That's convenient. Can I see the menu now?"],
+    ["H","Of course, would you like me to walk you through it?"],
+    ["G","Yes, please."],
+    ["H","We can also prepare dishes not listed, just let us know. Is there anything you're allergic to or prefer to avoid?"],
+    ["G","No allergies, but I do love seafood."],
+    ["H","Wonderful, our chef will be delighted to prepare something special for you."]
+  ],
+  rp:[
+    ["Guest: \"Can I really order food at 3am?\"", ["Yes, in-villa dining is available 24 hours a day.","No, the kitchen closes at midnight.","Only if it's an emergency."], 0, "State the 24-hour service clearly and confidently — it's a genuine feature, not an exception."],
+    ["Guest: \"I don't see any Vietnamese dishes on the menu.\"", ["We can prepare Vietnamese dishes for you too, just let us know your preference.","Sorry, we only serve international food.","You'll have to go to the restaurant for that."], 0, "Show flexibility — the kitchen can go beyond the printed menu."],
+    ["Guest: \"I'm severely allergic to peanuts.\"", ["Thank you for telling me — I'll flag this clearly with the chef right away.","Okay, just be careful when you order.","Most dishes don't have peanuts, so it should be fine."], 0, "Serious allergies require an immediate, concrete action, not reassurance alone."],
+    ["Guest: \"How do I actually place an order?\"", ["Simply dial 'Host' from your villa phone, and I'll take care of it.","You'll need to walk to the restaurant.","Send an email to the resort."], 0, "Keep the process simple and personal — the host handles it for the guest."],
+    ["Guest: \"What if I want something that's not on the menu?\"", ["We can often prepare dishes not listed — just let us know what you'd like.","We can only serve what's printed on the menu.","That's not really possible here."], 0, "Anticipatory service means saying yes wherever reasonably possible."],
+    ["Guest: \"Will you be my host every day?\"", ["I'll be your dedicated villa host throughout your stay.","No, it changes randomly each day.","That depends on how busy we are."], 0, "Continuity of care is part of the personalized experience guests expect."]
+  ],
+  listen:[
+    ["I'll be your villa host during your stay.","What is Linh's role?", ["Villa host","Chef","Driver"], 0],
+    ["You can order in-villa dining anytime, 24 hours a day.","When can guests order in-villa dining?", ["Anytime, 24 hours","Only at breakfast","Only on weekends"], 0],
+    ["Simply dial 'Host' from your villa phone.","How does the guest place an order?", ["Dial 'Host' from the villa phone","Walk to the kitchen","Use a mobile app"], 0],
+    ["We can also prepare dishes not listed, just let us know.","What can the kitchen do?", ["Prepare dishes not on the menu","Only follow the printed menu","Refuse special requests"], 0],
+    ["Is there anything you're allergic to or prefer to avoid?","What is the host checking?", ["Allergies and food preferences","The guest's room number","The guest's flight time"], 0],
+    ["Our chef will be delighted to prepare something special for you.","How does the chef feel about the request?", ["Delighted","Annoyed","Indifferent"], 0]
+  ]
+},
+{
+  title:"Sustainable Breakfast Experience",
+  mood:"dawn", sceneIcon:"leaf",
+  value:"Eat Well, Local & Organic",
+  goal:"Present breakfast options while highlighting locally sourced, organic ingredients and the Eat Well philosophy behind every dish.",
+  phrases:[
+    ["Would you like breakfast in the villa or at the restaurant?","Quý khách muốn dùng bữa sáng tại villa hay nhà hàng?","VIL-la or RES-tau-rant","sun"],
+    ["Our eggs come from our own organic farm.","Trứng của chúng tôi đến từ nông trại hữu cơ riêng.","OR-gan-ic farm","leaf"],
+    ["These vegetables are grown right here on the property.","Rau củ này được trồng ngay tại khu nghỉ dưỡng.","VE-ge-ta-bles","leaf"],
+    ["Would you like still or sparkling water?","Quý khách dùng nước lọc hay nước có ga?","SPAR-kling","drink"],
+    ["Everything is made fresh, with no plastic packaging.","Mọi thứ đều tươi mới và không dùng bao bì nhựa.","no PLAS-tic","leaf"],
+    ["Can I recommend today's chef's special?","Tôi có thể giới thiệu món đặc biệt hôm nay của bếp trưởng không?","rec-om-MEND","note"]
+  ],
+  conversation:[
+    ["H","Good morning! Would you like breakfast in the villa or at the restaurant this morning?"],
+    ["G","The restaurant, please, I'd like the view."],
+    ["H","Wonderful choice. Our eggs come from our own organic farm, and these vegetables are grown right here on the property."],
+    ["G","That's impressive — everything tastes so fresh."],
+    ["H","We believe in Eating Well, so nothing here is over-processed. Can I recommend today's chef's special?"],
+    ["G","Yes, please, surprise me."],
+    ["H","Our chef has prepared a tropical fruit bowl with local honey and toasted coconut."],
+    ["G","That sounds perfect."]
+  ],
+  rp:[
+    ["Guest: \"Is the food here really organic?\"", ["Yes, our eggs and vegetables come from our own organic farm.","It's mostly imported, actually.","We say organic, but it's not always true."], 0, "Speak with concrete, specific facts — it builds trust in the resort's sustainability story."],
+    ["Guest: \"Do you use plastic packaging for takeaway?\"", ["No, everything is made fresh, with no plastic packaging.","Yes, but only a little.","I'm not sure, I'd have to check."], 0, "Sustainability claims should be stated clearly and without hedging."],
+    ["Guest: \"I'd like something light this morning.\"", ["Of course, may I recommend our tropical fruit bowl with local honey?","You should eat a big breakfast, it's important.","We don't really have light options."], 0, "Meet the guest's actual preference rather than steering them elsewhere."],
+    ["Guest: \"Where do these vegetables come from?\"", ["They're grown right here on the property.","They come from the city market.","I'm not sure, probably somewhere nearby."], 0, "Own the story of the resort's garden with confidence and specificity."],
+    ["Guest: \"Still or sparkling water, what do you suggest?\"", ["Whichever you prefer — both are available.","Still is better for you.","We only have sparkling today."], 0, "Offer choice rather than a personal preference disguised as advice."],
+    ["Guest: \"What's today's chef's special?\"", ["A tropical fruit bowl with local honey and toasted coconut.","I'm not sure, I haven't checked.","It's the same as every day."], 0, "Know the day's special by heart — it shows attentiveness and pride in the kitchen."]
+  ],
+  listen:[
+    ["Our eggs come from our own organic farm.","Where do the eggs come from?", ["The resort's own organic farm","A nearby supermarket","Imported from abroad"], 0],
+    ["These vegetables are grown right here on the property.","Where are the vegetables grown?", ["On the property","In another country","In a city greenhouse"], 0],
+    ["Everything is made fresh, with no plastic packaging.","What does the resort avoid using?", ["Plastic packaging","Fresh ingredients","Local honey"], 0],
+    ["Can I recommend today's chef's special?","What is the host offering to do?", ["Recommend a special dish","Cook the meal himself","Cancel the order"], 0],
+    ["Would you like breakfast in the villa or at the restaurant?","What choice is the guest given?", ["Villa or restaurant","Breakfast or lunch","Coffee or tea"], 0],
+    ["We believe in Eating Well, so nothing here is over-processed.","What philosophy does the host mention?", ["Eating Well","Fast food","Fine dining only"], 0]
+  ]
+},
+{
+  title:"Restaurant Reservation & Seating",
+  mood:"day", sceneIcon:"table",
+  value:"Attentive, Unobtrusive Service",
+  goal:"Handle restaurant reservations and seating preferences with quiet efficiency, making guests feel looked after without ever feeling managed.",
+  phrases:[
+    ["Would you like to reserve a table for dinner tonight?","Quý khách có muốn đặt bàn cho bữa tối nay không?","re-SERVE a table","note"],
+    ["What time would be convenient for you?","Giờ nào thuận tiện cho quý khách?","con-VEN-ient","note"],
+    ["Do you prefer indoor seating or by the water?","Quý khách thích ngồi trong nhà hay gần mặt nước?","by the WA-ter","table"],
+    ["I have reserved a table for two at seven o'clock.","Tôi đã đặt bàn cho hai người lúc bảy giờ.","SEV-en o'clock","table"],
+    ["Right this way, please follow me.","Mời quý khách đi lối này, xin theo tôi.","this WAY","table"],
+    ["Please let me know if you need anything at all.","Xin cho tôi biết nếu quý khách cần bất cứ điều gì.","an-y-THING at all","heart"]
+  ],
+  conversation:[
+    ["G","Hi, could we reserve a table for dinner tonight?"],
+    ["H","Of course, what time would be convenient for you?"],
+    ["G","Around seven, if possible."],
+    ["H","That works well. Do you prefer indoor seating or a table by the water?"],
+    ["G","By the water, please."],
+    ["H","Perfect, I have reserved a table for two at seven o'clock by the water."],
+    ["G","Thank you so much."],
+    ["H","Right this way, please follow me. Please let me know if you need anything at all."]
+  ],
+  rp:[
+    ["Guest: \"Can we get a table without a reservation?\"", ["Let me check availability for you right now.","No, reservations are required, sorry.","You should have called ahead."], 0, "Take action first — see what's possible before defaulting to a refusal."],
+    ["Guest: \"We'd prefer somewhere quiet.\"", ["Of course, I'll find you a quiet table away from the main area.","All our tables are the same.","It might be difficult, but I'll try."], 0, "Respond to the specific preference with a specific solution."],
+    ["Guest: \"Is seven o'clock too early?\"", ["Not at all, seven o'clock works perfectly.","It's a bit early, but okay.","We usually serve dinner later."], 0, "Reassure guests that their preferred time is simply their choice, not an inconvenience."],
+    ["Guest: \"Can you seat us by the water?\"", ["Absolutely, I have a table by the water reserved for you.","That area is usually full.","I'll see what I can do, no promises."], 0, "Confirm with certainty when the request can genuinely be met."],
+    ["Guest: \"We're running fifteen minutes late.\"", ["No problem at all, we'll hold your table for you.","Please hurry, we can't wait long.","You may lose your reservation."], 0, "Remove pressure from the guest — flexibility is part of unobtrusive service."],
+    ["Guest: \"Can you change our reservation to a table for four?\"", ["Of course, I'll update it to a table for four right away.","That might not be possible tonight.","You should have told us earlier."], 0, "Handle changes smoothly, without implying the guest did something wrong."]
+  ],
+  listen:[
+    ["Would you like to reserve a table for dinner tonight?","What is being offered?", ["A dinner reservation","A spa appointment","A boat trip"], 0],
+    ["What time would be convenient for you?","What is the host asking?", ["A preferred time","A preferred dish","A preferred room"], 0],
+    ["Do you prefer indoor seating or by the water?","What choice does the guest have?", ["Indoor or by the water","Smoking or non-smoking","Fast or slow service"], 0],
+    ["I have reserved a table for two at seven o'clock.","How many people is the table for?", ["Two","Four","Six"], 0],
+    ["Right this way, please follow me.","What is the host inviting the guest to do?", ["Follow to the table","Wait at the bar","Return later"], 0],
+    ["Please let me know if you need anything at all.","What is the host offering?", ["Ongoing assistance","A discount","A menu change"], 0]
+  ]
+},
+{
+  title:"Sunset Cocktail & Bar Service",
+  mood:"sunset", sceneIcon:"drink",
+  value:"Mindful Moments & Slowing Down Time",
+  goal:"Guide guests through the bar menu during sunset hour, encouraging them to slow down and savor the moment rather than rushing the service.",
+  phrases:[
+    ["The sun sets beautifully from this deck.","Hoàng hôn nhìn từ sân này rất đẹp.","beau-ti-FUL-ly","sun"],
+    ["May I suggest our sunset cocktail of the day?","Tôi có thể gợi ý cocktail hoàng hôn trong ngày không?","sug-GEST","drink"],
+    ["It's made with local passionfruit and fresh mint.","Được pha từ chanh dây địa phương và bạc hà tươi.","PAS-sion-fruit","drink"],
+    ["Would you like it stronger or lighter?","Quý khách muốn đậm hay nhẹ hơn?","STRONG-er or LIGHT-er","drink"],
+    ["Take your time, there's no rush here.","Quý khách cứ từ từ, không có gì vội cả.","no RUSH","sun"],
+    ["Shall I bring some light bites to go with your drink?","Tôi có nên mang thêm món ăn nhẹ dùng kèm không?","light BITES","drink"]
+  ],
+  conversation:[
+    ["H","Good evening. The sun sets beautifully from this deck — perfect timing."],
+    ["G","I noticed! What do you recommend?"],
+    ["H","May I suggest our sunset cocktail of the day? It's made with local passionfruit and fresh mint."],
+    ["G","Sounds great, I'll try it."],
+    ["H","Would you like it stronger or lighter?"],
+    ["G","Lighter, please."],
+    ["H","Of course. Take your time, there's no rush here. Shall I bring some light bites to go with your drink?"],
+    ["G","Yes, that would be wonderful."]
+  ],
+  rp:[
+    ["Guest: \"What time does the sun set here?\"", ["Around six thirty this time of year — I'll make sure you have a great seat.","I'm not sure, check your phone.","It varies too much to say."], 0, "Turn a simple fact into a small act of care by offering to secure a good seat."],
+    ["Guest: \"I don't really drink cocktails.\"", ["No problem, I can recommend a refreshing mocktail instead.","You should try one anyway.","We don't really have alternatives."], 0, "Always have a genuine alternative ready, never pressure a guest."],
+    ["Guest: \"Can you make it less sweet?\"", ["Of course, I'll ask the bartender to adjust it for you.","It's made the same way for everyone.","That might change the taste too much."], 0, "Small customizations are easy wins for personalization."],
+    ["Guest: \"We'd like to watch the sunset in peace.\"", ["Of course, take your time, there's no rush at all.","You have about ten minutes before it's busy.","I'll check on you every few minutes."], 0, "Give guests space — attentive doesn't mean constantly present."],
+    ["Guest: \"What's in the sunset cocktail?\"", ["Local passionfruit and fresh mint, it's one of our favorites.","Just a standard mix, nothing special.","I'd have to ask the bartender."], 0, "Know the menu's story — it makes recommendations feel genuine."],
+    ["Guest: \"Could we get some snacks with our drinks?\"", ["Of course, shall I bring some light bites to go with them?","We don't usually serve food at the bar.","That would take a while to prepare."], 0, "Say yes and offer a specific, easy solution."]
+  ],
+  listen:[
+    ["The sun sets beautifully from this deck.","What is the host describing?", ["The view of the sunset","The dinner menu","The weather forecast"], 0],
+    ["May I suggest our sunset cocktail of the day?","What is being suggested?", ["A cocktail","A dessert","A room upgrade"], 0],
+    ["It's made with local passionfruit and fresh mint.","What ingredients are mentioned?", ["Passionfruit and mint","Mango and basil","Lime and ginger"], 0],
+    ["Would you like it stronger or lighter?","What is the guest being asked to choose?", ["Drink strength","Seating area","Meal size"], 0],
+    ["Take your time, there's no rush here.","What mood is the host encouraging?", ["Relaxed, unhurried","Urgent","Formal"], 0],
+    ["Shall I bring some light bites to go with your drink?","What is being offered?", ["Light snacks","A full dinner","A wine list"], 0]
+  ]
+},
+{
+  title:"Private In-Villa Dining Setup",
+  mood:"evening", sceneIcon:"candle",
+  value:"Emotional Hospitality & Celebration",
+  goal:"Arrange and describe a private in-villa or beachfront dining setup for a special occasion, expressing warmth and genuine care for the moment being celebrated.",
+  phrases:[
+    ["We'd be delighted to arrange a private dinner for you.","Chúng tôi rất vui được sắp xếp bữa tối riêng cho quý khách.","de-LIGHT-ed","heart"],
+    ["Is this for a special celebration?","Đây có phải dịp kỷ niệm đặc biệt không?","cel-e-BRA-tion","candle"],
+    ["We can set up a table on the beach at sunset.","Chúng tôi có thể đặt bàn trên bãi biển lúc hoàng hôn.","on the BEACH","table"],
+    ["Would you like candles and flowers on the table?","Quý khách có muốn nến và hoa trên bàn không?","CAN-dles","candle"],
+    ["Our chef can design a personalized tasting menu.","Bếp trưởng có thể thiết kế thực đơn riêng cho quý khách.","PER-son-a-lized","note"],
+    ["Everything will be ready before you arrive.","Mọi thứ sẽ sẵn sàng trước khi quý khách đến.","be-FORE you arrive","host"]
+  ],
+  conversation:[
+    ["G","We'd like to arrange a private dinner tomorrow evening."],
+    ["H","We'd be delighted to arrange that for you. Is this for a special celebration?"],
+    ["G","It's our anniversary."],
+    ["H","How wonderful, congratulations. We can set up a table on the beach at sunset, would you like candles and flowers on the table?"],
+    ["G","Yes, that sounds perfect."],
+    ["H","Our chef can also design a personalized tasting menu for the occasion."],
+    ["G","That would mean so much to us."],
+    ["H","Leave it with us — everything will be ready before you arrive."]
+  ],
+  rp:[
+    ["Guest: \"We'd like something really special for our anniversary.\"", ["It would be our pleasure — let us design something memorable for you.","We can add a candle to your table.","That might cost extra, just so you know."], 0, "Match the emotional weight of the occasion with a genuinely thoughtful response."],
+    ["Guest: \"Can we do dinner right on the beach?\"", ["Absolutely, we can set up a table on the beach at sunset.","That's usually only for special guests.","The beach isn't really set up for dining."], 0, "Say yes clearly, and paint the picture of what's possible."],
+    ["Guest: \"We don't need anything fancy, just quiet.\"", ["Understood, we'll keep it simple and peaceful for you.","Are you sure? Most guests want the full setup.","We'll add candles anyway, they're included."], 0, "Honor the guest's actual wish instead of a standard package."],
+    ["Guest: \"Can the chef create a custom menu for us?\"", ["Of course, our chef can design a personalized tasting menu just for you.","Only if you choose from the existing menu.","That usually takes a few days to arrange."], 0, "Personalization is a genuine capability here, not an exception to sell around."],
+    ["Guest: \"What time should everything be ready by?\"", ["Whatever time suits you — everything will be ready before you arrive.","We'll try to have it ready close to that time.","You'll need to confirm the exact time twice."], 0, "Give the guest full confidence, without adding friction or extra steps."],
+    ["Guest: \"Will there be other guests around?\"", ["No, this will be a private setting just for the two of you.","There might be a few other tables nearby.","It depends on how busy we are that night."], 0, "Be precise about privacy when a guest asks — it matters for the moment they're planning."]
+  ],
+  listen:[
+    ["We'd be delighted to arrange a private dinner for you.","What is being arranged?", ["A private dinner","A group tour","A cooking class"], 0],
+    ["Is this for a special celebration?","What is the host asking about?", ["The occasion","The guest's job","The guest's flight"], 0],
+    ["We can set up a table on the beach at sunset.","Where will the table be set up?", ["On the beach","By the pool","In the villa kitchen"], 0],
+    ["Would you like candles and flowers on the table?","What decorations are offered?", ["Candles and flowers","Balloons and confetti","Music and lights only"], 0],
+    ["Our chef can design a personalized tasting menu.","What can the chef create?", ["A personalized tasting menu","A fixed set menu only","Only desserts"], 0],
+    ["Everything will be ready before you arrive.","What is promised to the guest?", ["Everything ready in advance","A short wait on arrival","A choice of two setups"], 0]
+  ]
+},
+{
+  title:"Wellness Cuisine & Dietary Care",
+  mood:"day", sceneIcon:"heart",
+  value:"Eat Well, Feel Good, Live Well",
+  goal:"Respond to special dietary requests with confidence and care, and describe the Eat Well wellness cuisine philosophy in a way that reassures guests.",
+  phrases:[
+    ["Do you have any dietary restrictions I should know about?","Quý khách có yêu cầu ăn kiêng nào tôi cần biết không?","di-e-TAR-y","heart"],
+    ["This dish is gluten-free and dairy-free.","Món này không chứa gluten và không có sữa.","GLU-ten-free","note"],
+    ["Our Eat Well menu focuses on nourishing, balanced meals.","Thực đơn Eat Well của chúng tôi chú trọng bữa ăn cân bằng, bổ dưỡng.","NOUR-ish-ing","leaf"],
+    ["I'll double-check with the chef to be safe.","Tôi sẽ kiểm tra lại với bếp trưởng cho chắc chắn.","DOU-ble-check","host"],
+    ["We can adjust the spice level to your taste.","Chúng tôi có thể điều chỉnh độ cay theo khẩu vị.","SPICE level","note"],
+    ["Would you prefer a lighter option this evening?","Tối nay quý khách có muốn món nhẹ hơn không?","LIGHT-er option","leaf"]
+  ],
+  conversation:[
+    ["H","Do you have any dietary restrictions I should know about before we begin?"],
+    ["G","I'm vegan, and I try to avoid too much sugar."],
+    ["H","Understood. Our Eat Well menu focuses on nourishing, balanced meals, so we have several vegan dishes."],
+    ["G","That's great to hear."],
+    ["H","This dish is gluten-free and dairy-free as well. I'll double-check with the chef to be safe."],
+    ["G","Thank you, I appreciate the care."],
+    ["H","Of course. We can also adjust the spice level to your taste."],
+    ["G","Perfect, thank you."]
+  ],
+  rp:[
+    ["Guest: \"I'm vegan, is that going to be a problem?\"", ["Not at all, our Eat Well menu has several delicious vegan dishes.","It might limit your choices a lot.","We can try, but no promises."], 0, "Reassure confidently and specifically — dietary needs should never feel like a burden to the guest."],
+    ["Guest: \"Does this contain gluten?\"", ["No, this dish is gluten-free, I've double-checked with the chef.","I don't think so, but I'm not fully sure.","Just avoid the bread if you're worried."], 0, "For dietary safety, certainty matters — confirm rather than guess."],
+    ["Guest: \"Can you make this less spicy?\"", ["Of course, we can adjust the spice level to your taste.","It's usually served this way.","You can just eat around the spicy parts."], 0, "Small adjustments should be offered readily, not treated as an inconvenience."],
+    ["Guest: \"I'm trying to eat healthier during this trip.\"", ["Wonderful, our Eat Well menu focuses on nourishing, balanced meals.","That might be difficult on holiday.","We have a few light dishes somewhere on the menu."], 0, "Connect the guest's goal directly to the Eat Well philosophy."],
+    ["Guest: \"I have a severe shellfish allergy.\"", ["Thank you for letting me know — I'll confirm this carefully with the kitchen.","Most dishes here don't use shellfish.","Just tell the waiter each time you order."], 0, "Serious allergies always warrant an explicit, immediate follow-up action."],
+    ["Guest: \"Is there a lighter option for dinner tonight?\"", ["Yes, would you like me to suggest a lighter option this evening?","Dinner here is usually quite rich.","You could just eat less of the same dish."], 0, "Offer a real alternative rather than commenting on the existing menu."]
+  ],
+  listen:[
+    ["Do you have any dietary restrictions I should know about?","What is the host asking about?", ["Dietary restrictions","Room preferences","Travel plans"], 0],
+    ["This dish is gluten-free and dairy-free.","What is this dish free from?", ["Gluten and dairy","Sugar and salt","Nuts and seeds"], 0],
+    ["Our Eat Well menu focuses on nourishing, balanced meals.","What does the Eat Well menu focus on?", ["Nourishing, balanced meals","Large portion sizes","Exotic imported ingredients"], 0],
+    ["I'll double-check with the chef to be safe.","What will the host do?", ["Confirm with the chef","Guess the ingredients","Cancel the dish"], 0],
+    ["We can adjust the spice level to your taste.","What can be adjusted?", ["Spice level","Portion size only","Serving time"], 0],
+    ["Would you prefer a lighter option this evening?","What is being offered?", ["A lighter dish","A larger dish","A dessert"], 0]
+  ]
+},
+{
+  title:"Farewell Dinner & Feedback",
+  mood:"sunset", sceneIcon:"gift",
+  value:"For People, For the Planet",
+  goal:"Host a guest's farewell dinner, invite honest feedback warmly, and reflect Six Senses' commitment to leaving guests with a lasting, positive impact.",
+  phrases:[
+    ["Tonight is your last evening with us, isn't it?","Tối nay là buổi tối cuối cùng của quý khách phải không?","last EVE-ning","sun"],
+    ["We've prepared something special to send you off.","Chúng tôi đã chuẩn bị điều đặc biệt để tiễn quý khách.","send you OFF","candle"],
+    ["How has your experience been with us?","Trải nghiệm của quý khách tại đây thế nào?","ex-PER-i-ence","note"],
+    ["Your feedback helps us grow and improve.","Góp ý của quý khách giúp chúng tôi hoàn thiện hơn.","FEED-back","heart"],
+    ["We hope you'll carry a piece of Six Senses with you.","Chúng tôi hy vọng quý khách mang theo một phần Six Senses bên mình.","CAR-ry a piece","gift"],
+    ["Safe travels, and we hope to welcome you back soon.","Chúc quý khách thượng lộ bình an, mong sớm được đón tiếp trở lại.","SAFE travels","wave"]
+  ],
+  conversation:[
+    ["H","Tonight is your last evening with us, isn't it?"],
+    ["G","Yes, sadly it is."],
+    ["H","We've prepared something special to send you off. How has your experience been with us overall?"],
+    ["G","Honestly, it's been unforgettable."],
+    ["H","That means a lot to us. Your feedback helps us grow and improve."],
+    ["G","I'll definitely be sharing it."],
+    ["H","Thank you. We hope you'll carry a piece of Six Senses with you."],
+    ["G","I certainly will."],
+    ["H","Safe travels, and we hope to welcome you back soon."]
+  ],
+  rp:[
+    ["Guest: \"I'm really sad to be leaving tomorrow.\"", ["We understand — let's make tonight a wonderful send-off for you.","Everyone feels that way at the end.","You'll be back to normal life soon."], 0, "Meet the guest's emotion with warmth and a concrete gesture, not a generalization."],
+    ["Guest: \"Honestly, I have a few complaints.\"", ["Thank you for telling me, please share — your feedback really helps us improve.","I'm sorry to hear that, I'll pass it on eventually.","That's unusual, most guests are happy."], 0, "Invite honest feedback openly — defensiveness undermines trust."],
+    ["Guest: \"This has been the best trip of my life.\"", ["That means so much to us — thank you for letting us be part of it.","That's nice to hear.","We try our best for every guest."], 0, "Receive praise personally and warmly, not with a generic reply."],
+    ["Guest: \"Will I get a copy of the feedback form?\"", ["Of course, I'll make sure you have one before you leave.","You can find it online somewhere.","That's usually handled at checkout."], 0, "Take ownership of the request rather than redirecting the guest elsewhere."],
+    ["Guest: \"What do you recommend for our last dinner?\"", ["Let me prepare something truly memorable to close your journey with us.","The regular menu should be fine.","Whatever you choose will be okay."], 0, "The farewell dinner deserves the same intentionality as the welcome."],
+    ["Guest: \"We'll definitely recommend this place to friends.\"", ["Thank you so much, we hope to welcome you all back soon.","That's good to know.","We appreciate any recommendation."], 0, "Respond with genuine warmth — this is the lasting impression guests will carry."]
+  ],
+  listen:[
+    ["Tonight is your last evening with us, isn't it?","What is the host confirming?", ["That it's the guest's last night","The guest's room number","The guest's flight time"], 0],
+    ["We've prepared something special to send you off.","What has been prepared?", ["A special send-off","An extra bill","A room upgrade"], 0],
+    ["How has your experience been with us?","What is the host asking about?", ["The guest's overall experience","The guest's flight","The guest's job"], 0],
+    ["Your feedback helps us grow and improve.","Why does feedback matter to the resort?", ["It helps them improve","It's required by law","It affects staff pay only"], 0],
+    ["We hope you'll carry a piece of Six Senses with you.","What sentiment is expressed?", ["A lasting positive memory","A request to buy souvenirs","A reminder to pack"], 0],
+    ["Safe travels, and we hope to welcome you back soon.","What is the host wishing for?", ["A safe trip and future return","A safe flight only","A quick checkout"], 0]
+  ]
+},
+{
+  title:"Giving Directions",
+  mood:"day", sceneIcon:"compass",
+  value:"Attentive Guidance, Calmly Given",
+  goal:"Guide guests to F&B venues and resort facilities with clear, unhurried directions — offering to walk with them whenever it makes the moment easier.",
+  phrases:[
+    ["The main restaurant is just a short walk from here.","Nhà hàng chính chỉ cách đây một đoạn đi bộ ngắn.","short WALK","compass"],
+    ["I'll walk you there myself.","Tôi sẽ đích thân dẫn quý khách đến đó.","walk you THERE","host"],
+    ["Turn left at the reception pavilion.","Rẽ trái tại khu vực lễ tân.","turn LEFT","compass"],
+    ["It's about five minutes along the beach path.","Khoảng năm phút đi dọc theo lối đi bãi biển.","beach PATH","sun"],
+    ["Would you like a buggy to take you there?","Quý khách có muốn dùng xe điện để đến đó không?","BUG-gy","host"],
+    ["You can't miss it — it's right by the water.","Quý khách sẽ không thể bỏ lỡ — nó ngay cạnh mặt nước.","can't MISS it","sun"]
+  ],
+  conversation:[
+    ["G","Excuse me, how do I get to the main restaurant from here?"],
+    ["H","The main restaurant is just a short walk from here — shall I walk you there myself?"],
+    ["G","That would be great, thank you."],
+    ["H","Turn left at the reception pavilion, then it's about five minutes along the beach path."],
+    ["G","Sounds easy enough."],
+    ["H","Would you like a buggy to take you there instead? It's a warm afternoon."],
+    ["G","Actually, a buggy would be nice."],
+    ["H","Of course — you can't miss it once we arrive, it's right by the water."]
+  ],
+  rp:[
+    ["Guest: \"I think I'm lost, is the restaurant near here?\"", ["Yes, it's just a short walk — let me walk you there myself.","It's somewhere over there.","You should have asked at reception."], 0, "Take the guest there personally rather than pointing vaguely."],
+    ["Guest: \"Is it a long walk in this heat?\"", ["Not at all, but would you like a buggy to make it easier?","It's not that far, you'll be fine.","Yes, it's quite far, sorry."], 0, "Offer a practical, comfortable solution rather than reassurance alone."],
+    ["Guest: \"Which way is the beach path?\"", ["Turn left at the reception pavilion, and I'll point you the rest of the way.","It's somewhere past the pool.","Just follow the signs."], 0, "Give clear, specific directions with a personal touch."],
+    ["Guest: \"Can we get there before sunset?\"", ["Yes, it's about five minutes away — you'll have plenty of time.","I'm not sure, it depends on traffic.","You should hurry, just in case."], 0, "Give a confident, specific estimate to ease the guest's mind."],
+    ["Guest: \"Do I need to book a buggy in advance?\"", ["No need, I can call one for you right now.","Yes, usually a day ahead.","Buggies are only for VIP guests."], 0, "Remove unnecessary friction — arranging it immediately is part of the service."],
+    ["Guest: \"I always get lost around the resort.\"", ["Don't worry at all, I'm happy to walk you wherever you need to go.","Everyone does at first.","You'll learn the layout eventually."], 0, "Offer help warmly instead of just normalizing the guest's frustration."]
+  ],
+  listen:[
+    ["The main restaurant is just a short walk from here.","How far is the restaurant?", ["A short walk away","A long drive away","Only reachable by boat"], 0],
+    ["I'll walk you there myself.","What is the host offering to do?", ["Personally guide the guest","Call a taxi","Give a map"], 0],
+    ["Turn left at the reception pavilion.","Where should the guest turn?", ["At the reception pavilion","At the spa","At the pool"], 0],
+    ["It's about five minutes along the beach path.","How long is the walk?", ["About five minutes","About thirty minutes","About one hour"], 0],
+    ["Would you like a buggy to take you there?","What is being offered?", ["A buggy ride","A boat ride","A bicycle"], 0],
+    ["You can't miss it — it's right by the water.","Where is the destination located?", ["Right by the water","Deep in the jungle","Next to the gate"], 0]
+  ]
+},
+{
+  title:"Handling Requests & Complaints",
+  mood:"dawn", sceneIcon:"heart",
+  value:"Genuine Care & Heartfelt Recovery",
+  goal:"Respond to special requests and service complaints with empathy and ownership — turning a difficult moment into a moment of trust.",
+  phrases:[
+    ["I'm so sorry to hear that.","Tôi rất xin lỗi vì điều đó.","so SOR-ry","heart"],
+    ["Thank you for bringing this to my attention.","Cảm ơn quý khách đã cho tôi biết điều này.","to my at-TEN-tion","note"],
+    ["Let me look into this right away.","Tôi sẽ kiểm tra việc này ngay.","right a-WAY","host"],
+    ["I completely understand your frustration.","Tôi hoàn toàn hiểu sự khó chịu của quý khách.","frus-TRA-tion","heart"],
+    ["May I offer you this as a gesture of apology?","Tôi có thể mời quý khách món này như một lời xin lỗi không?","GES-ture of a-POL-o-gy","gift"],
+    ["Is there anything else I can do to make this right?","Còn điều gì tôi có thể làm để khắc phục không?","make this RIGHT","heart"]
+  ],
+  conversation:[
+    ["G","Excuse me, this soup is completely cold."],
+    ["H","I'm so sorry to hear that, thank you for bringing this to my attention."],
+    ["G","I've been waiting a while too."],
+    ["H","I completely understand your frustration. Let me look into this right away and bring you a fresh bowl immediately."],
+    ["G","I'd appreciate that."],
+    ["H","Of course. May I also offer you this dessert as a gesture of apology?"],
+    ["G","That's very kind, thank you."],
+    ["H","Is there anything else I can do to make this right?"],
+    ["G","No, this is perfect, thank you for handling it so well."]
+  ],
+  rp:[
+    ["Guest: \"This is the second time my order has come out wrong.\"", ["I'm so sorry — let me personally make sure it's corrected this time.","That's strange, it usually doesn't happen.","I'll mention it to the kitchen."], 0, "Take personal ownership rather than distancing yourself from the problem."],
+    ["Guest: \"I've been waiting twenty minutes for my drink.\"", ["I apologize for the wait, let me check on it immediately.","It's been busy tonight, sorry.","I'll ask the bartender when I see them."], 0, "Act immediately rather than explaining the delay."],
+    ["Guest: \"This isn't what I ordered.\"", ["I'm sorry for the mix-up, let me fix this for you right away.","Are you sure? That's what we have on the ticket.","You can send it back if you want."], 0, "Don't make the guest defend their order — simply correct the mistake."],
+    ["Guest: \"The service tonight has been disappointing.\"", ["I'm truly sorry to hear that — can you tell me more so I can make it right?","I'm sorry you feel that way.","We've had a difficult night, unfortunately."], 0, "Invite specifics and take responsibility, rather than a vague or defensive reply."],
+    ["Guest: \"I don't want a replacement, I just want a refund.\"", ["Of course, I completely understand — I'll arrange that for you right away.","We usually offer a replacement instead.","I'll have to ask my manager about that."], 0, "Honor the guest's clear preference without pushing an alternative."],
+    ["Guest: \"I really appreciate how you handled that.\"", ["Thank you, it means a lot — I just wanted to make things right for you.","No problem, it's my job.","Glad it worked out."], 0, "Receive the guest's thanks warmly and personally."]
+  ],
+  listen:[
+    ["I'm so sorry to hear that.","What is the host expressing?", ["Sincere apology","Confusion","Disagreement"], 0],
+    ["Thank you for bringing this to my attention.","What is the host thanking the guest for?", ["Reporting the issue","Paying the bill","Making a reservation"], 0],
+    ["Let me look into this right away.","What will the host do?", ["Address the issue immediately","Wait until later","Ask another guest"], 0],
+    ["I completely understand your frustration.","What is the host acknowledging?", ["The guest's frustration","The guest's order","The guest's schedule"], 0],
+    ["May I offer you this as a gesture of apology?","What is being offered?", ["A gesture of apology","A bigger bill","A menu change"], 0],
+    ["Is there anything else I can do to make this right?","What is the host asking?", ["If more can be done to help","If the guest is leaving","If the bill is ready"], 0]
+  ]
+},
+{
+  title:"Bill & Payment",
+  mood:"evening", sceneIcon:"note",
+  value:"Effortless Elegance & Trust",
+  goal:"Present the bill and process payment smoothly and transparently, closing the F&B experience with the same effortless elegance guests felt throughout their stay.",
+  phrases:[
+    ["Would you like the bill charged to your villa, or paid now?","Quý khách muốn tính vào villa hay thanh toán ngay bây giờ?","charged to your VIL-la","note"],
+    ["May I bring you the bill whenever you're ready?","Tôi có thể mang hóa đơn đến bất cứ khi nào quý khách sẵn sàng không?","when-EV-er ready","note"],
+    ["This includes a 5% service charge, as noted on the menu.","Hóa đơn đã bao gồm 5% phí dịch vụ như đã ghi trên thực đơn.","SER-vice charge","note"],
+    ["Would you like a printed receipt or an email copy?","Quý khách muốn nhận biên lai giấy hay bản email?","printed RE-ceipt","note"],
+    ["Everything has been signed and charged to your villa.","Mọi thứ đã được ký và tính vào villa.","SIGNED and charged","host"],
+    ["Thank you, and please enjoy the rest of your evening.","Cảm ơn quý khách, chúc quý khách một buổi tối vui vẻ.","rest of your EVE-ning","wave"]
+  ],
+  conversation:[
+    ["G","Could we have the bill, please?"],
+    ["H","Of course. Would you like it charged to your villa, or paid now?"],
+    ["G","Charged to the villa, please."],
+    ["H","Certainly. This includes a 5% service charge, as noted on the menu."],
+    ["G","That's fine."],
+    ["H","Would you like a printed receipt or an email copy?"],
+    ["G","An email copy is fine, thank you."],
+    ["H","Everything has been signed and charged to your villa. Thank you, and please enjoy the rest of your evening."],
+    ["G","Thank you, we will."]
+  ],
+  rp:[
+    ["Guest: \"Can I just sign for this instead of paying cash?\"", ["Of course, I'll charge it to your villa right away.","We prefer cash if possible.","That should be fine, I think."], 0, "Confirm the guest's preferred, effortless option without hesitation."],
+    ["Guest: \"What's this extra charge on the bill?\"", ["That's our 5% service charge, as noted on the menu — happy to explain further.","I'm not sure, it's just standard.","You'll have to ask at the front desk."], 0, "Know the bill well enough to explain any line item clearly and confidently."],
+    ["Guest: \"Can you email the receipt instead of printing it?\"", ["Of course, may I confirm the best email address for you?","We usually only print receipts.","I'll try, but it might not go through."], 0, "Say yes and take the small extra step to make it effortless."],
+    ["Guest: \"I think there's a mistake on the bill.\"", ["Let me check that for you right away.","It's usually correct, but I'll look.","You can dispute it at checkout."], 0, "Address a billing concern immediately and without defensiveness."],
+    ["Guest: \"Do you need my signature right now?\"", ["Whenever is convenient for you, there's no rush.","Yes, we need it before you leave the table.","It's just a formality, sign anytime."], 0, "Keep the closing moment relaxed, not transactional."],
+    ["Guest: \"That was a wonderful dinner, thank you.\"", ["Thank you so much — it was our pleasure to host you tonight.","Glad you enjoyed it.","We hope you'll come again."], 0, "Close warmly and personally, matching the tone of the whole evening."]
+  ],
+  listen:[
+    ["Would you like the bill charged to your villa, or paid now?","What choice is offered?", ["Charge to villa or pay now","Cash or card only","Split the bill or not"], 0],
+    ["This includes a 5% service charge, as noted on the menu.","What charge is mentioned?", ["A 5% service charge","A 10% tax","A late fee"], 0],
+    ["Would you like a printed receipt or an email copy?","What choice is given?", ["Printed or email receipt","Cash or card","Now or later"], 0],
+    ["Everything has been signed and charged to your villa.","How was the bill settled?", ["Signed and charged to the villa","Paid in cash","Left unpaid"], 0],
+    ["May I bring you the bill whenever you're ready?","What is the host offering?", ["To bring the bill when ready","To bring dessert","To call a taxi"], 0],
+    ["Thank you, and please enjoy the rest of your evening.","What is the host wishing the guest?", ["An enjoyable evening","A safe flight","A good night's sleep"], 0]
+  ]
+}
+];
+
+/* ============================= RENDERING ============================= */
+const navList = document.getElementById('navList');
+const unitGrid = document.getElementById('unitGrid');
+const unitViewsRoot = document.getElementById('unitViews');
+
+UNITS.forEach((u,i)=>{
+  const li = document.createElement('li');
+  li.className='nav-item';
+  li.innerHTML = `<button class="nav-link" id="navlink-${i+1}" onclick="goToUnit(${i+1})">
+      <span class="n">${String(i+1).padStart(2,'0')}</span>
+      <span><span class="t">${u.title}</span><span class="v">${u.value}</span></span>
+    </button>`;
+  navList.appendChild(li);
+
+  const card = document.createElement('div');
+  card.className='unit-card';
+  card.onclick = ()=>goToUnit(i+1);
+  card.innerHTML = `<div class="num">Unit ${String(i+1).padStart(2,'0')}</div>
+    <h3>${u.title}</h3>
+    <div class="uv">${u.value}</div>
+    <p class="ug">${u.goal}</p>`;
+  unitGrid.appendChild(card);
+
+  unitViewsRoot.appendChild(buildUnitView(u,i+1));
+});
+
+function buildUnitView(u, idx){
+  const view = document.createElement('div');
+  view.className='view';
+  view.id = 'view-unit-'+idx;
+
+  const phraseCards = u.phrases.map((p,pi)=>{
+    const key = 'ph-'+idx+'-'+pi;
+    AUDIO_MAP[key] = {text:p[0], opts:{voice:'female', rate:0.94}};
+    return `
+    <div class="phrase-card">
+      <div class="phrase-top">
+        <div class="phrase-icon">${iconSvg(p[3])}</div>
+        <div>
+          <div class="phrase-en">${p[0]}</div>
+          <div class="phrase-tip">${p[2]}</div>
+        </div>
+      </div>
+      <div class="phrase-vi">${p[1]}</div>
+      <div class="phrase-actions">
+        <button class="playbtn" id="ph-play-${idx}-${pi}" onclick="speakById('${key}', this)">${SVG_SPEAKER}<span>Play</span></button>
+        <button class="playbtn secondary" onclick="pauseAudio(document.getElementById('ph-play-${idx}-${pi}'))">${SVG_PAUSE}<span>Pause</span></button>
+      </div>
+    </div>`;}).join('');
+
+  const convoLines = u.conversation.map((l,li)=>{
+    const voice = l[0]==='H'?'male':'female';
+    const key = 'cv-'+idx+'-'+li;
+    AUDIO_MAP[key] = {text:l[1], opts:{voice:voice, rate:0.96}};
+    return `
+    <div class="convo-line">
+      <div class="convo-tag tag-${l[0]}">${l[0]==='H'?'Host':'Guest'}</div>
+      <div class="convo-text">${l[1]}</div>
+      <div class="convo-actions">
+        <button class="convo-play" id="cv-play-${idx}-${li}" title="Play" onclick="speakById('${key}', this)">${SVG_PLAY}</button>
+        <button class="convo-play" title="Pause" onclick="pauseAudio(document.getElementById('cv-play-${idx}-${li}'))">${SVG_PAUSE}</button>
+      </div>
+    </div>`;}).join('');
+
+  const rpCards = u.rp.map((r,ri)=>`
+    <div class="quiz-card">
+      <div class="qnum">Role-play ${ri+1} of 6</div>
+      <div class="qtext">${r[0]}<br><span class="scenario">Choose the response that best reflects Six Senses hospitality.</span></div>
+      <div class="opt-list" id="rp-${idx}-${ri}">
+        ${r[1].map((opt,oi)=>`<button class="opt" onclick="answerRP(${idx},${ri},${oi})"><span class="bullet"></span><span>${opt}</span></button>`).join('')}
+      </div>
+      <div class="feedback" id="rpfb-${idx}-${ri}"></div>
+    </div>`).join('');
+
+  const listenCards = u.listen.map((l,li)=>{
+    const voice = li%2===0?'male':'female';
+    const key = 'ls-'+idx+'-'+li;
+    AUDIO_MAP[key] = {text:l[0], opts:{voice:voice, rate:0.94}};
+    return `
+    <div class="quiz-card">
+      <div class="qnum">Listening ${li+1} of 6</div>
+      <div class="listen-actions">
+        <button class="listen-audio-btn" id="ls-play-${idx}-${li}" onclick="speakById('${key}', this)">${SVG_SPEAKER}<span>Play audio</span></button>
+        <button class="listen-audio-btn secondary" onclick="pauseAudio(document.getElementById('ls-play-${idx}-${li}'))">${SVG_PAUSE}<span>Pause</span></button>
+      </div>
+      <div class="qtext" style="margin-top:14px;">${l[1]}</div>
+      <div class="opt-list" id="ls-${idx}-${li}">
+        ${l[2].map((opt,oi)=>`<button class="opt" onclick="answerListen(${idx},${li},${oi})"><span class="bullet"></span><span>${opt}</span></button>`).join('')}
+      </div>
+    </div>`;}).join('');
+
+  view.innerHTML = `
+    <div class="unit-head">
+      <div class="crumb">Unit ${String(idx).padStart(2,'0')} of ${String(UNITS.length).padStart(2,'0')} &nbsp;·&nbsp; F&amp;B Guest Journey</div>
+      <h2>${u.title}</h2>
+      <div class="valuepill">${iconSvg('heart')} ${u.value}</div>
+      <p class="goal"><strong style="color:var(--white);font-weight:600;">Learning goal —</strong> ${u.goal}</p>
+    </div>
+
+    <section class="section">
+      <div class="shead"><h3>Useful phrases</h3><div class="shint">Tap "Play" to hear each line, and "Pause" to stop it at any point.</div></div>
+      <div class="scene-banner">${bannerSvg(u.mood, u.sceneIcon)}</div>
+      <div class="phrase-grid">${phraseCards}</div>
+    </section>
+
+    <section class="section">
+      <div class="shead"><h3>Reorder the sentence</h3><div class="shint">Tap the words below, in order, to rebuild each phrase you just learned.</div></div>
+      <div class="quiz-grid" id="reorder-${idx}"></div>
+      <div class="score-bar"><span>Reorder score</span><span><b id="roscore-${idx}">0</b> / 6</span></div>
+    </section>
+
+    <section class="section">
+      <div class="shead"><h3>Conversation — Guest &amp; F&amp;B Host</h3><div class="shint">Play each line individually, or play the whole exchange in order.</div></div>
+      <div class="duo-scene">${duoSvg(u.mood, u.sceneIcon)}</div>
+      <div class="convo-wrap">
+        <div class="convo-toolbar">
+          <button class="playbtn" id="convoplay-${idx}" onclick="playConversation(${idx})">${SVG_SPEAKER}<span>Play full conversation</span></button>
+          <button class="playbtn secondary" onclick="pauseAudio(document.getElementById('convoplay-${idx}'))">${SVG_PAUSE}<span>Pause</span></button>
+        </div>
+        ${convoLines}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shead"><h3>Matching quiz</h3><div class="shint">Match each English phrase to its Vietnamese meaning.</div></div>
+      <div class="match-wrap" id="matchwrap-${idx}"></div>
+      <div class="match-status" id="matchstatus-${idx}">0 of 6 matched.</div>
+      <button class="reset-link" onclick="buildMatching(${idx})">Reset matching quiz</button>
+    </section>
+
+    <section class="section">
+      <div class="shead"><h3>Role-play quiz</h3><div class="shint">Pick the response a Six Senses F&amp;B Host would genuinely give.</div></div>
+      <div class="quiz-grid">${rpCards}</div>
+      <div class="score-bar"><span>Role-play score</span><span><b id="rpscore-${idx}">0</b> / 6</span></div>
+    </section>
+
+    <section class="section">
+      <div class="shead"><h3>Listening quiz</h3><div class="shint">Listen first, then choose the answer that matches what you heard.</div></div>
+      <div class="quiz-grid">${listenCards}</div>
+      <div class="score-bar"><span>Listening score</span><span><b id="lsscore-${idx}">0</b> / 6</span></div>
+    </section>
+
+    <div class="unit-nav-foot">
+      ${idx>1?`<button class="footbtn" onclick="goToUnit(${idx-1})">← Unit ${String(idx-1).padStart(2,'0')}</button>`:'<span></span>'}
+      ${idx<UNITS.length?`<button class="footbtn" onclick="goToUnit(${idx+1})">Unit ${String(idx+1).padStart(2,'0')} →</button>`:`<button class="footbtn" onclick="goToUnit(0)">Back to overview</button>`}
+    </div>
+  `;
+  return view;
+}
+
+/* ---------- navigation ---------- */
+function goToUnit(n){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(v=>v.classList.remove('active'));
+  const fab = document.getElementById('homeFab');
+  if(n===0){
+    document.getElementById('view-home').classList.add('active');
+    fab.classList.remove('visible');
+  } else {
+    document.getElementById('view-unit-'+n).classList.add('active');
+    const nl = document.getElementById('navlink-'+n);
+    if(nl) nl.classList.add('active');
+    if(!document.getElementById('matchwrap-'+n).dataset.built){ buildMatching(n); }
+    if(!document.getElementById('reorder-'+n).dataset.built){ buildReorder(n); }
+    window.scrollTo({top:0,behavior:'instant'});
+    fab.classList.add('visible');
+  }
+}
+window.speechSynthesis && document.addEventListener('click',()=>{},{once:true});
+
+function playConversation(idx){
+  const items = UNITS[idx-1].conversation.map(([spk,text])=>[text,{voice:spk==='H'?'male':'female',rate:0.96}]);
+  speakSequence(items, document.getElementById('convoplay-'+idx));
+}
+
+/* ---------- Matching quiz ---------- */
+const matchState = {};
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function buildMatching(idx){
+  const wrap = document.getElementById('matchwrap-'+idx);
+  wrap.dataset.built='1';
+  const phrases = UNITS[idx-1].phrases.map((p,pi)=>({key:pi, en:p[0], vi:p[1]}));
+  const enOrder = shuffle(phrases);
+  const viOrder = shuffle(phrases);
+  matchState[idx] = { selectedEn:null, selectedVi:null, matched:new Set() };
+
+  wrap.innerHTML = `
+    <div>
+      <div class="match-col-label">English</div>
+      <div id="matchen-${idx}">${enOrder.map(p=>`<button class="match-item" data-key="${p.key}" onclick="pickMatch(${idx},'en',${p.key},this)">${p.en}</button>`).join('')}</div>
+    </div>
+    <div>
+      <div class="match-col-label">Ý nghĩa (Vietnamese)</div>
+      <div id="matchvi-${idx}">${viOrder.map(p=>`<button class="match-item" data-key="${p.key}" onclick="pickMatch(${idx},'vi',${p.key},this)">${p.vi}</button>`).join('')}</div>
+    </div>
+  `;
+  updateMatchStatus(idx);
+}
+
+function pickMatch(idx, side, key, el){
+  const st = matchState[idx];
+  if(el.classList.contains('matched')) return;
+  const container = document.getElementById(side==='en'?'matchen-'+idx:'matchvi-'+idx);
+  container.querySelectorAll('.match-item').forEach(b=>{ if(!b.classList.contains('matched')) b.classList.remove('selected'); });
+  el.classList.add('selected');
+  if(side==='en') st.selectedEn = {key,el}; else st.selectedVi = {key,el};
+
+  if(st.selectedEn && st.selectedVi){
+    if(st.selectedEn.key === st.selectedVi.key){
+      st.selectedEn.el.classList.remove('selected'); st.selectedEn.el.classList.add('matched');
+      st.selectedVi.el.classList.remove('selected'); st.selectedVi.el.classList.add('matched');
+      st.matched.add(st.selectedEn.key);
+      st.selectedEn=null; st.selectedVi=null;
+      updateMatchStatus(idx);
+    } else {
+      const e1=st.selectedEn.el, e2=st.selectedVi.el;
+      e1.classList.add('wrong'); e2.classList.add('wrong');
+      setTimeout(()=>{ e1.classList.remove('wrong','selected'); e2.classList.remove('wrong','selected'); },420);
+      st.selectedEn=null; st.selectedVi=null;
+    }
+  }
+}
+function updateMatchStatus(idx){
+  const st = matchState[idx];
+  const el = document.getElementById('matchstatus-'+idx);
+  el.textContent = st.matched.size+' of 6 matched.' + (st.matched.size===6 ? '  Well done — all phrases matched correctly.' : '');
+}
+
+/* ---------- Role-play & Listening scoring ---------- */
+const rpScored = {}, lsScored = {};
+function answerRP(idx, ri, oi){
+  const key = idx+'-'+ri;
+  if(rpScored[key]!==undefined) return;
+  const data = UNITS[idx-1].rp[ri];
+  const correct = data[2];
+  const list = document.getElementById('rp-'+idx+'-'+ri);
+  [...list.children].forEach((b,i)=>{
+    b.disabled = true;
+    if(i===correct) b.classList.add('correct');
+    else if(i===oi) b.classList.add('incorrect');
+  });
+  const fb = document.getElementById('rpfb-'+idx+'-'+ri);
+  fb.classList.add('show', oi===correct?'good':'bad');
+  fb.textContent = (oi===correct?'Well chosen. ':'Not quite the Six Senses way. ') + data[3];
+  rpScored[key] = (oi===correct)?1:0;
+  const total = Object.keys(rpScored).filter(k=>k.startsWith(idx+'-')).reduce((s,k)=>s+rpScored[k],0);
+  document.getElementById('rpscore-'+idx).textContent = total;
+}
+function answerListen(idx, li, oi){
+  const key = idx+'-'+li;
+  if(lsScored[key]!==undefined) return;
+  const data = UNITS[idx-1].listen[li];
+  const correct = data[3];
+  const list = document.getElementById('ls-'+idx+'-'+li);
+  [...list.children].forEach((b,i)=>{
+    b.disabled = true;
+    if(i===correct) b.classList.add('correct');
+    else if(i===oi) b.classList.add('incorrect');
+  });
+  lsScored[key] = (oi===correct)?1:0;
+  const total = Object.keys(lsScored).filter(k=>k.startsWith(idx+'-')).reduce((s,k)=>s+lsScored[k],0);
+  document.getElementById('lsscore-'+idx).textContent = total;
+}
+
+/* ---------- Reorder-the-sentence exercise (built from the unit's 6 useful phrases) ---------- */
+const reorderState = {}, reorderScored = {};
+function buildReorder(idx){
+  const container = document.getElementById('reorder-'+idx);
+  container.dataset.built = '1';
+  const phrases = UNITS[idx-1].phrases;
+  let html = '';
+  phrases.forEach((p,qi)=>{
+    const words = p[0].split(' ');
+    const tokens = shuffle(words.map((w,i)=>({id:i, word:w})));
+    reorderState[idx+'-'+qi] = { original: words, tokens: tokens, picked: [] };
+    html += `<div class="quiz-card">
+      <div class="qnum">Reorder ${qi+1} of 6</div>
+      <button class="listen-audio-btn" onclick="speakById('ph-${idx}-${qi}', this)">${SVG_SPEAKER}<span>Listen first</span></button>
+      <div class="ro-answer" id="ro-answer-${idx}-${qi}"></div>
+      <div class="ro-bank" id="ro-bank-${idx}-${qi}"></div>
+      <div class="ro-actions">
+        <button class="footbtn" onclick="checkReorder(${idx},${qi})">Check</button>
+        <button class="reset-link" onclick="resetReorder(${idx},${qi})">Reset</button>
+      </div>
+      <div class="feedback" id="rofb-${idx}-${qi}"></div>
+    </div>`;
+  });
+  container.innerHTML = html;
+  phrases.forEach((p,qi)=>renderReorder(idx,qi));
+}
+function renderReorder(idx, qi){
+  const st = reorderState[idx+'-'+qi];
+  const bank = document.getElementById('ro-bank-'+idx+'-'+qi);
+  const ans = document.getElementById('ro-answer-'+idx+'-'+qi);
+  bank.innerHTML = st.tokens.filter(t=>st.picked.indexOf(t.id)===-1)
+    .map(t=>`<button class="word-tile" onclick="pickWord(${idx},${qi},${t.id})">${st.original[t.id]}</button>`).join('');
+  ans.innerHTML = st.picked.length
+    ? st.picked.map(id=>`<button class="word-tile picked" onclick="unpickWord(${idx},${qi},${id})">${st.original[id]}</button>`).join('')
+    : '<span class="ro-placeholder">Tap the words below, in order…</span>';
+}
+function pickWord(idx, qi, id){
+  const key = idx+'-'+qi;
+  if(reorderScored[key]!==undefined) return;
+  reorderState[key].picked.push(id);
+  renderReorder(idx, qi);
+}
+function unpickWord(idx, qi, id){
+  const key = idx+'-'+qi;
+  if(reorderScored[key]!==undefined) return;
+  const st = reorderState[key];
+  const pos = st.picked.indexOf(id);
+  if(pos>-1) st.picked.splice(pos,1);
+  renderReorder(idx, qi);
+}
+function checkReorder(idx, qi){
+  const key = idx+'-'+qi;
+  if(reorderScored[key]!==undefined) return;
+  const st = reorderState[key];
+  const fb = document.getElementById('rofb-'+idx+'-'+qi);
+  if(st.picked.length < st.original.length){
+    fb.classList.remove('good'); fb.classList.add('show','bad');
+    fb.textContent = 'Please arrange all the words first.';
+    return;
+  }
+  const correct = st.picked.every((id,i)=>id===i);
+  const ans = document.getElementById('ro-answer-'+idx+'-'+qi);
+  const bank = document.getElementById('ro-bank-'+idx+'-'+qi);
+  [...ans.children].forEach(b=>b.disabled=true);
+  [...bank.children].forEach(b=>b.disabled=true);
+  ans.classList.add(correct?'ro-correct':'ro-incorrect');
+  fb.classList.remove('bad','good');
+  fb.classList.add('show', correct?'good':'bad');
+  fb.textContent = correct ? 'Well ordered — that is the phrase.' : ('Not quite. The correct order is: "'+st.original.join(' ')+'"');
+  reorderScored[key] = correct?1:0;
+  const total = Object.keys(reorderScored).filter(k=>k.startsWith(idx+'-')).reduce((s,k)=>s+reorderScored[k],0);
+  document.getElementById('roscore-'+idx).textContent = total;
+}
+function resetReorder(idx, qi){
+  const key = idx+'-'+qi;
+  delete reorderScored[key];
+  reorderState[key].picked = [];
+  const fb = document.getElementById('rofb-'+idx+'-'+qi);
+  fb.classList.remove('show','good','bad'); fb.textContent = '';
+  const ans = document.getElementById('ro-answer-'+idx+'-'+qi);
+  ans.classList.remove('ro-correct','ro-incorrect');
+  renderReorder(idx, qi);
+  const total = Object.keys(reorderScored).filter(k=>k.startsWith(idx+'-')).reduce((s,k)=>s+reorderScored[k],0);
+  document.getElementById('roscore-'+idx).textContent = total;
+}
+</script>
+</body>
+</html>
